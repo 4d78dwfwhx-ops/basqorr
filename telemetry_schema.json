@@ -2,63 +2,118 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://basqor.com/schemas/telemetry/v2",
   "title": "BasqorUserTelemetryPayload",
-  "description": "هيكل بيانات تيليميتري المستخدم لتغذية محرك الذكاء الاصطناعي",
+  "description": "هيكل بيانات تيليميتري المستخدم لتغذية محرك الذكاء الاصطناعي في منصة بازقر. يتضمن schema كامل مع example جاهز للاختبار.",
   "type": "object",
   "properties": {
     "session_token": {
       "type": "string",
       "format": "uuid",
-      "description": "رمز الجلسة الفريد"
+      "description": "رمز الجلسة الفريد الذي يربط جميع أحداث المستخدم في الجلسة الواحدة",
+      "example": "550e8400-e29b-41d4-a716-446655440000"
     },
     "user_vector_class": {
       "type": "string",
       "enum": ["CUSTOMER", "SALVAGE_MERCHANT", "LOGISTICS_CAPTAIN"],
-      "description": "تصنيف فئة المستخدم"
+      "description": "تصنيف فئة المستخدم: CUSTOMER=عميل يبحث عن قطع، SALVAGE_MERCHANT=تاجر تشليح، LOGISTICS_CAPTAIN=مندوب توصيل"
     },
     "platform_version": {
       "type": "string",
-      "default": "2.0.0"
+      "default": "2.0.0",
+      "description": "إصدار منصة بازقر الحالي"
+    },
+    "client_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "توقيت الحدث في جهاز العميل (ISO 8601)"
     },
     "realtime_telemetry": {
       "type": "object",
+      "description": "بيانات التيليميتري اللحظية للحدث",
       "properties": {
         "geolocation_coordinates": {
           "type": "array",
           "items": { "type": "number" },
           "minItems": 2,
           "maxItems": 2,
-          "description": "[latitude, longitude]"
+          "description": "[latitude, longitude] - إحداثيات GPS للمستخدم وقت الحدث"
         },
         "target_vin_context": {
           "type": "string",
           "maxLength": 17,
           "minLength": 17,
-          "description": "رقم الهيكل المستهدف"
+          "description": "رقم الهيكل المستهدف في عملية البحث أو الطلب"
+        },
+        "target_part_number": {
+          "type": "string",
+          "description": "رقم القطعة المستهدفة إن وجدت"
         },
         "device_info": {
           "type": "object",
+          "description": "معلومات جهاز المستخدم",
           "properties": {
-            "platform": { "type": "string", "enum": ["ios", "android", "web"] },
-            "screen_size": { "type": "string" },
-            "network_type": { "type": "string", "enum": ["wifi", "4g", "5g"] }
+            "platform": { 
+              "type": "string", 
+              "enum": ["ios", "android", "web"],
+              "description": "نوع المنصة"
+            },
+            "browser": { "type": "string", "description": "المتصفح إن كان ويب" },
+            "screen_size": { "type": "string", "description": "حجم الشاشة" },
+            "network_type": { 
+              "type": "string", 
+              "enum": ["wifi", "4g", "5g", "unknown"],
+              "description": "نوع الشبكة"
+            }
           }
         },
         "action_matrix": {
           "type": "object",
+          "description": "مصفوفة سلوك المستخدم داخل القمع التحويلي",
           "properties": {
             "funnel_stage": {
               "type": "string",
               "enum": [
+                "LANDING_PAGE_VIEW",
                 "VIN_SCAN",
+                "COMPATIBILITY_CHECK",
                 "PRICE_COMPARE",
                 "WHATSAPP_REDIRECT",
                 "ORDER_PLACED",
-                "PAYMENT_COMPLETED"
-              ]
+                "PAYMENT_INITIATED",
+                "PAYMENT_COMPLETED",
+                "ORDER_RECEIVED",
+                "REVIEW_SUBMITTED"
+              ],
+              "description": "مرحلة القمع التحويلي التي وصل لها المستخدم"
             },
-            "dwell_time_milliseconds": { "type": "integer", "minimum": 0 },
-            "scroll_depth_percentage": { "type": "integer", "minimum": 0, "maximum": 100 },
-            "interaction_count": { "type": "integer", "minimum": 0 }
+            "dwell_time_milliseconds": { 
+              "type": "integer", 
+              "minimum": 0,
+              "description": "مدة بقاء المستخدم في هذه المرحلة بالملي ثانية"
+            },
+            "scroll_depth_percentage": { 
+              "type": "integer", 
+              "minimum": 0, 
+              "maximum": 100,
+              "description": "نسبة التمرير في الصفحة (0-100)"
+            },
+            "interaction_count": { 
+              "type": "integer", 
+              "minimum": 0,
+              "description": "عدد تفاعلات المستخدم (نقرات، ضغطات)"
+            },
+            "search_query": {
+              "type": "string",
+              "description": "نص البحث الذي أدخله المستخدم"
+            },
+            "results_viewed": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "عدد النتائج التي شاهدها المستخدم"
+            },
+            "listing_clicked_id": {
+              "type": "string",
+              "description": "معرف الإعلان الذي نقر عليه المستخدم"
+            }
           },
           "required": ["funnel_stage", "dwell_time_milliseconds"]
         }
@@ -67,13 +122,137 @@
     },
     "server_metadata": {
       "type": "object",
+      "description": "بيانات يضيفها الخادم تلقائياً عند استلام الحمولة",
       "properties": {
-        "server_timestamp": { "type": "string", "format": "date-time" },
-        "server_region": { "type": "string", "default": "sa-east-1" },
-        "payload_hash": { "type": "string" },
-        "processing_time_ms": { "type": "number" }
+        "server_timestamp": { 
+          "type": "string", 
+          "format": "date-time",
+          "description": "توقيت استلام الخادم للحمولة"
+        },
+        "server_region": { 
+          "type": "string", 
+          "default": "sa-east-1",
+          "description": "منطقة الخادم الذي استلم الطلب"
+        },
+        "payload_hash": { 
+          "type": "string",
+          "description": "تجزئة SHA256 مختصرة للتحقق من سلامة البيانات"
+        },
+        "processing_time_ms": { 
+          "type": "number",
+          "description": "زمن معالجة الطلب بالملي ثانية"
+        },
+        "ai_engine_version": {
+          "type": "string",
+          "default": "2.0.0",
+          "description": "إصدار محرك الذكاء الاصطناعي المستخدم"
+        }
       }
     }
   },
-  "required": ["session_token", "user_vector_class", "realtime_telemetry"]
+  "required": ["session_token", "user_vector_class", "realtime_telemetry"],
+  
+  "examples": [
+    {
+      "name": "مثال: عميل يقارن أسعار قطع غيار كامري",
+      "description": "مستخدم يبحث عن قطع غيار لسيارة كامري 2018 ويقارن الأسعار",
+      "data": {
+        "session_token": "550e8400-e29b-41d4-a716-446655440000",
+        "user_vector_class": "CUSTOMER",
+        "platform_version": "2.0.0",
+        "client_timestamp": "2026-06-13T14:30:00+03:00",
+        "realtime_telemetry": {
+          "geolocation_coordinates": [24.7136, 46.6753],
+          "target_vin_context": "JTDKN3DU0A1234567",
+          "target_part_number": "BRK-CAMRY-2018-FRONT",
+          "device_info": {
+            "platform": "ios",
+            "screen_size": "390x844",
+            "network_type": "5g"
+          },
+          "action_matrix": {
+            "funnel_stage": "PRICE_COMPARE",
+            "dwell_time_milliseconds": 4500,
+            "scroll_depth_percentage": 75,
+            "interaction_count": 8,
+            "results_viewed": 12,
+            "listing_clicked_id": "LST-2026-001234"
+          }
+        },
+        "server_metadata": {
+          "server_timestamp": "2026-06-13T14:30:05+03:00",
+          "server_region": "sa-east-1",
+          "payload_hash": "a1b2c3d4e5f6a7b8",
+          "processing_time_ms": 4.2,
+          "ai_engine_version": "2.0.0"
+        }
+      }
+    },
+    {
+      "name": "مثال: مندوب توصيل يستلم طلب جديد",
+      "description": "مندوب توصيل يتلقى إشعار طلب توصيل قطعة",
+      "data": {
+        "session_token": "661f9511-f30c-52e5-b827-557766551111",
+        "user_vector_class": "LOGISTICS_CAPTAIN",
+        "platform_version": "2.0.0",
+        "client_timestamp": "2026-06-13T15:45:00+03:00",
+        "realtime_telemetry": {
+          "geolocation_coordinates": [24.7743, 46.7386],
+          "target_vin_context": "",
+          "device_info": {
+            "platform": "android",
+            "screen_size": "412x915",
+            "network_type": "4g"
+          },
+          "action_matrix": {
+            "funnel_stage": "ORDER_RECEIVED",
+            "dwell_time_milliseconds": 1200,
+            "scroll_depth_percentage": 100,
+            "interaction_count": 3
+          }
+        },
+        "server_metadata": {
+          "server_timestamp": "2026-06-13T15:45:02+03:00",
+          "server_region": "sa-east-1",
+          "payload_hash": "b2c3d4e5f6a7b8c9",
+          "processing_time_ms": 3.8,
+          "ai_engine_version": "2.0.0"
+        }
+      }
+    },
+    {
+      "name": "مثال: تاجر تشليح يضيف قطعة جديدة",
+      "description": "تاجر تشليح يرفع قطعة جديدة للمخزون",
+      "data": {
+        "session_token": "772a0622-a41d-63f6-c938-668877662222",
+        "user_vector_class": "SALVAGE_MERCHANT",
+        "platform_version": "2.0.0",
+        "client_timestamp": "2026-06-13T16:00:00+03:00",
+        "realtime_telemetry": {
+          "geolocation_coordinates": [24.5247, 46.6977],
+          "target_vin_context": "JTDKN3DU0A1234567",
+          "target_part_number": "DOOR-FRONT-LEFT-CAMRY18",
+          "device_info": {
+            "platform": "web",
+            "browser": "Chrome 125",
+            "screen_size": "1920x1080",
+            "network_type": "wifi"
+          },
+          "action_matrix": {
+            "funnel_stage": "ORDER_PLACED",
+            "dwell_time_milliseconds": 8500,
+            "scroll_depth_percentage": 100,
+            "interaction_count": 15
+          }
+        },
+        "server_metadata": {
+          "server_timestamp": "2026-06-13T16:00:10+03:00",
+          "server_region": "sa-east-1",
+          "payload_hash": "c3d4e5f6a7b8c9d0",
+          "processing_time_ms": 6.1,
+          "ai_engine_version": "2.0.0"
+        }
+      }
+    }
+  ]
 }
