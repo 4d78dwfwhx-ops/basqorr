@@ -11,15 +11,15 @@
         * { font-family: 'Tajawal', system-ui, sans-serif; }
     </style>
 </head>
-<body class="bg-gray-950 text-white min-h-screen flex flex-col">
+<body class="bg-gradient-to-b from-blue-950 to-blue-900 text-white min-h-screen flex flex-col">
 
-    <header class="border-b border-gray-800">
+    <header class="border-b border-blue-800">
         <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
                 <span class="text-3xl">🚗</span>
-                <span class="text-2xl font-black text-orange-500">باسكور</span>
+                <span class="text-2xl font-black text-red-500">باسكور</span>
             </div>
-            <span class="text-xs bg-green-900 text-green-300 px-3 py-1 rounded-full">🟢 السعودية</span>
+            <span class="text-xs bg-blue-800 text-blue-200 px-3 py-1 rounded-full">🟢 السعودية</span>
         </div>
     </header>
 
@@ -27,13 +27,13 @@
         <div class="max-w-2xl w-full text-center">
             
             <h1 class="text-4xl font-black mb-4 text-white">قطع غيار سيارتك عند بابك</h1>
-            <p class="text-gray-400 text-lg mb-8">أدخل رقم الهيكل (VIN) لتحصل على قطع الغيار المتوافقة مع سيارتك</p>
+            <p class="text-blue-200 text-lg mb-8">أدخل رقم الهيكل (VIN) لتحصل على قطع الغيار المتوافقة مع سيارتك</p>
 
-            <div class="bg-gray-900 p-8 rounded-2xl border border-gray-800 shadow-2xl">
+            <div class="bg-blue-900/50 backdrop-blur p-8 rounded-2xl border border-blue-700 shadow-2xl">
                 <input type="text" id="vinInput" maxlength="17" placeholder="أدخل رقم الهيكل المكون من 17 خانة" 
-                       class="w-full p-5 bg-gray-950 border-2 border-gray-700 rounded-xl text-center font-mono text-xl uppercase tracking-[0.3em] text-orange-400 focus:outline-none focus:border-orange-500 mb-6 placeholder:text-gray-600 placeholder:tracking-normal placeholder:font-sans placeholder:text-base">
+                       class="w-full p-5 bg-blue-950 border-2 border-blue-600 rounded-xl text-center font-mono text-xl uppercase tracking-[0.3em] text-red-400 focus:outline-none focus:border-red-500 mb-6 placeholder:text-blue-400 placeholder:tracking-normal placeholder:font-sans placeholder:text-base">
                 
-                <button onclick="searchVIN()" class="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-5 rounded-xl text-lg transition-all shadow-lg shadow-orange-900/30">
+                <button onclick="searchVIN()" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-5 rounded-xl text-lg transition-all shadow-lg shadow-red-900/30">
                     فحص السيارة
                 </button>
 
@@ -41,30 +41,30 @@
             </div>
 
             <div class="mt-10">
-                <p class="text-xs text-gray-600 mb-4">جميع الماركات العالمية مدعومة</p>
+                <p class="text-xs text-blue-400 mb-4">جميع الماركات العالمية مدعومة</p>
                 <div class="flex flex-wrap justify-center gap-2">
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">تويوتا</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">لكزس</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">هيونداي</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">كيا</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">نيسان</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">هوندا</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">مازدا</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">مرسيدس</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">BMW</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">فورد</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">شفروليه</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">GMC</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">شانجان</span>
-                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400">جيلي</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">تويوتا</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">لكزس</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">هيونداي</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">كيا</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">نيسان</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">هوندا</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">مازدا</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">مرسيدس</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">BMW</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">فورد</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">شفروليه</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">GMC</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">شانجان</span>
+                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">جيلي</span>
                 </div>
             </div>
 
         </div>
     </main>
 
-    <footer class="border-t border-gray-900 p-6 text-center text-xs text-gray-600">
-        <p>جميع الحقوق محفوظة © 2026 <span class="text-orange-500 font-bold">باسكور</span> - المملكة العربية السعودية</p>
+    <footer class="border-t border-blue-800 p-6 text-center text-xs text-blue-400">
+        <p>جميع الحقوق محفوظة © 2026 <span class="text-red-500 font-bold">باسكور</span> - المملكة العربية السعودية</p>
     </footer>
 
     <script src="basqor.js"></script>
