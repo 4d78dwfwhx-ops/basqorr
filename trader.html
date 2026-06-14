@@ -10,30 +10,30 @@
         * { font-family: 'Tajawal', system-ui, sans-serif; }
     </style>
 </head>
-<body class="bg-gray-950 text-white min-h-screen">
+<body class="bg-gradient-to-b from-blue-950 to-blue-900 text-white min-h-screen">
 
-    <header class="border-b border-gray-800">
+    <header class="border-b border-blue-800">
         <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
                 <span class="text-2xl">🏪</span>
-                <span class="text-xl font-black text-orange-500">باسكور | التاجر</span>
+                <span class="text-xl font-black text-red-500">باسكور | التاجر</span>
             </div>
-            <span class="text-xs bg-green-900 text-green-300 px-3 py-1 rounded-full">🟢 متصل</span>
+            <span class="text-xs bg-blue-800 text-blue-200 px-3 py-1 rounded-full">🟢 متصل</span>
         </div>
     </header>
 
     <main class="max-w-3xl mx-auto p-4">
         <div class="flex justify-between items-center mt-6 mb-4">
             <h2 class="text-xl font-bold">📥 الطلبات الواردة</h2>
-            <button onclick="loadOrders()" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-xl text-sm transition-all">تحديث</button>
+            <button onclick="loadOrders()" class="bg-blue-800 hover:bg-blue-700 px-4 py-2 rounded-xl text-sm transition-all">تحديث</button>
         </div>
         <div id="ordersContainer" class="space-y-3">
-            <p class="text-center text-gray-600 py-20">لا توجد طلبات حالياً</p>
+            <p class="text-center text-blue-400 py-20">لا توجد طلبات حالياً</p>
         </div>
     </main>
 
-    <footer class="border-t border-gray-900 p-6 text-center text-xs text-gray-600 mt-10">
-        <p>جميع الحقوق محفوظة © 2026 <span class="text-orange-500 font-bold">باسكور</span></p>
+    <footer class="border-t border-blue-800 p-6 text-center text-xs text-blue-400 mt-10">
+        <p>جميع الحقوق محفوظة © 2026 <span class="text-red-500 font-bold">باسكور</span></p>
     </footer>
 
     <script src="basqor.js"></script>
