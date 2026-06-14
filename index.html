@@ -3,68 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="باسكور - المنصة السعودية الأولى لقطع غيار السيارات. ابحث برقم الهيكل عن قطع الغيار المناسبة لسيارتك.">
-    <title>باسكور | قطع غيار السيارات - السعودية</title>
+    <meta name="description" content="BASQOR - المنصة السعودية الأولى لقطع غيار السيارات">
+    <title>BASQOR | قطع غيار السيارات - السعودية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');
         * { font-family: 'Tajawal', system-ui, sans-serif; }
     </style>
 </head>
-<body class="bg-gradient-to-b from-blue-950 to-blue-900 text-white min-h-screen flex flex-col">
+<body class="min-h-screen bg-[#f3f3f3] flex flex-col items-stretch font-sans" dir="rtl">
 
-    <header class="border-b border-blue-800">
-        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <span class="text-3xl">🚗</span>
-                <span class="text-2xl font-black text-red-500">باسكور</span>
-            </div>
-            <span class="text-xs bg-blue-800 text-blue-200 px-3 py-1 rounded-full">🟢 السعودية</span>
+    <header class="shadow-sm w-full bg-white z-10 h-16 flex items-center px-8 border-b border-[#e5e9e8]">
+        <div class="flex items-center gap-3">
+            <span class="inline-block w-8 h-8 bg-[#de3c44] text-white text-lg rounded-full flex items-center justify-center font-bold">ب</span>
+            <span class="text-xl font-bold text-[#343535] select-none">BASQOR</span>
         </div>
     </header>
 
-    <main class="flex-1 flex items-center justify-center p-4">
-        <div class="max-w-2xl w-full text-center">
-            
-            <h1 class="text-4xl font-black mb-4 text-white">قطع غيار سيارتك عند بابك</h1>
-            <p class="text-blue-200 text-lg mb-8">أدخل رقم الهيكل (VIN) لتحصل على قطع الغيار المتوافقة مع سيارتك</p>
-
-            <div class="bg-blue-900/50 backdrop-blur p-8 rounded-2xl border border-blue-700 shadow-2xl">
-                <input type="text" id="vinInput" maxlength="17" placeholder="أدخل رقم الهيكل المكون من 17 خانة" 
-                       class="w-full p-5 bg-blue-950 border-2 border-blue-600 rounded-xl text-center font-mono text-xl uppercase tracking-[0.3em] text-red-400 focus:outline-none focus:border-red-500 mb-6 placeholder:text-blue-400 placeholder:tracking-normal placeholder:font-sans placeholder:text-base">
-                
-                <button onclick="searchVIN()" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-5 rounded-xl text-lg transition-all shadow-lg shadow-red-900/30">
-                    فحص السيارة
-                </button>
-
-                <div id="vinResult" class="mt-6 text-right"></div>
+    <main class="flex-1">
+        <section class="w-full max-w-3xl mx-auto mt-8 mb-4 p-6 rounded-lg bg-white shadow-lg flex flex-col items-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-[#343535] text-center mb-4">قطع غيار سيارات</h1>
+            <div class="w-full flex gap-2 max-w-md mx-auto mb-2">
+                <input id="vinInput" class="flex-1 rounded-lg border border-[#c2c8ca] px-4 py-2 text-lg outline-none focus:border-[#de3c44]" type="text" placeholder="ابحث برقم الهيكل أو رقم القطعة" maxlength="17">
+                <button onclick="searchVIN()" class="bg-[#de3c44] text-white px-6 py-2 rounded-lg font-bold text-lg hover:bg-[#b92e37] transition-colors" type="button">بحث</button>
             </div>
-
-            <div class="mt-10">
-                <p class="text-xs text-blue-400 mb-4">جميع الماركات العالمية مدعومة</p>
-                <div class="flex flex-wrap justify-center gap-2">
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">تويوتا</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">لكزس</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">هيونداي</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">كيا</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">نيسان</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">هوندا</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">مازدا</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">مرسيدس</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">BMW</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">فورد</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">شفروليه</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">GMC</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">شانجان</span>
-                    <span class="text-xs bg-blue-800 px-3 py-1 rounded-full text-blue-200">جيلي</span>
-                </div>
+            <div class="text-xs text-[#949da3] text-center flex items-center justify-center mb-2 gap-2">
+                <span>أمثلة:</span>
+                <a href="#" onclick="document.getElementById('vinInput').value='JTHBJ46G9B2420251';searchVIN()" class="hover:underline text-[#66a7af]">JTHBJ46G9B2420251</a>
+                <a href="#" onclick="document.getElementById('vinInput').value='JTDKN3DU0A1234567';searchVIN()" class="hover:underline text-[#66a7af]">JTDKN3DU0A1234567</a>
+                <a href="#" onclick="document.getElementById('vinInput').value='KMHDH4AE1BU123456';searchVIN()" class="hover:underline text-[#66a7af]">KMHDH4AE1BU123456</a>
             </div>
+            <a href="#vin-help" class="text-sm text-[#66a7af] hover:underline">ماهو رقم الهيكل؟</a>
+            <div id="vinResult" class="mt-6 w-full text-right"></div>
+        </section>
 
-        </div>
+        <section class="flex flex-wrap justify-center items-center gap-6 py-4 w-full max-w-2xl mx-auto text-[#343535] text-base">
+            <div class="bg-[#e5e9e8] rounded-lg px-8 py-3 font-semibold">قطع أصليه</div>
+            <div class="bg-[#e5e9e8] rounded-lg px-8 py-3 font-semibold">أسعار أفضل</div>
+            <div class="bg-[#e5e9e8] rounded-lg px-8 py-3 font-semibold">شراء مباشر</div>
+        </section>
+
+        <section class="w-full max-w-4xl mx-auto pt-6 pb-10">
+            <h3 class="text-center text-[#949da3] text-sm mb-4">جميع الماركات العالمية</h3>
+            <div class="flex flex-wrap justify-center gap-3" id="brandsList"></div>
+        </section>
     </main>
 
-    <footer class="border-t border-blue-800 p-6 text-center text-xs text-blue-400">
-        <p>جميع الحقوق محفوظة © 2026 <span class="text-red-500 font-bold">باسكور</span> - المملكة العربية السعودية</p>
+    <footer class="w-full bg-[#343535] text-[#f3f3f3] text-sm py-6 mt-auto">
+        <div class="w-full max-w-4xl mx-auto flex flex-col sm:flex-row gap-2 justify-between items-center rtl text-center px-4">
+            <div class="flex flex-row flex-wrap gap-3">
+                <a href="#" class="hover:underline">اتفاقية استخدام الموقع</a>
+                <a href="#" class="hover:underline">سياسة الخصوصية</a>
+                <a href="#" class="hover:underline">أسئلة متكررة</a>
+                <a href="#" class="hover:underline">اتصل بنا</a>
+            </div>
+            <span class="block mt-2 sm:mt-0">© 2026 <strong>BASQOR</strong> - المملكة العربية السعودية</span>
+        </div>
     </footer>
 
     <script src="basqor.js"></script>
