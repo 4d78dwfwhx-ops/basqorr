@@ -1,17 +1,25 @@
+cat > src/app/ClientBody.tsx << 'EOF'
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export default function ClientBody({
-  children,
-}: {
+interface ClientBodyProps {
   children: React.ReactNode;
-}) {
-  // Remove any extension-added classes during hydration
+}
+
+export function ClientBody({ children }: ClientBodyProps) {
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
-    // This runs only on the client after hydration
-    document.body.className = "antialiased";
+    setMounted(true);
   }, []);
 
-  return <div className="antialiased">{children}</div>;
+  if (!mounted) {
+    return null;
+  }
+
+  return <>{children}</>;
 }
+
+export default ClientBody;
+EOF
