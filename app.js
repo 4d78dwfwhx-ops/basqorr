@@ -316,3 +316,61 @@ function loadOrders() {
     }
     let filtered = orders;
     if (currentFilter === 'pending') filtered = orders.filter(o => o.status === 'pending');
+    else if (currentFilter === 'accepted') filtered = orders.filter(o => o.status === 'accepted');
+    updateNewOrdersCount(orders.filter(o => o.status === 'pending').length);
+    if (filtered.length === 0) {
+        container.innerHTML = '<p class="text-center text-gray-600 py-20">لا توجد طلبات</p>';
+        return;
+    }
+    container.innerHTML = filtered.reverse().map(order => `
+        <div class="order-card bg-gray-900 p-4 rounded-xl border border-gray-800 status-${order.status==='accepted'?'accepted':order.status==='rejected'?'rejected':'new'}">
+            <div class="flex justify-between items-start mb-3">
+                <div><span class="font-mono text-orange-400 text-sm">#${order.id}</span>
+                <span class="text-xs mr-2 px-2 py-1 rounded-full ${order.status==='accepted'?'bg-green-900 text-green-300':'bg-orange-900 text-orange-300'}">${order.status==='accepted'?'✅ مقبول':'⏳ جديد'}</span></div>
+                <span class="text-xs text-gray-600">${order.time}</span>
+            </div>
+            <p class="font-bold text-lg">${order.vin.icon} ${order.vin.make} - ${order.vin.year}</p>
+            <div class="mt-2 space-y-1">${order.parts.map(p => `<p class="text-sm text-gray-400">🔧 ${p.name} (${p.quantity}x)</p>`).join('')}</div>
+            <div class="mt-3 p-2 bg-gray-800 rounded-lg"><p class="text-xs text-gray-500">👤 ${order.customer.name} | 📍 ${order.customer.district}</p></div>
+            <div class="mt-3 flex gap-2">
+                <a href="https://wa.me/${order.customer.phone}" target="_blank" class="flex-1 bg-green-600 hover:bg-green-500 text-white text-center py-2 rounded-lg text-sm font-bold">💬 تواصل</a>
+                ${order.status==='pending' ? `
+                <button onclick="acceptOrder('${order.id}')" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg text-sm font-bold">✅ قبول</button>
+                <button onclick="rejectOrder('${order.id}')" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-bold">✕</button>` : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
+function acceptOrder(id) {
+    const orders = JSON.parse(localStorage.getItem('basqor_orders') || '[]');
+    const idx = orders.findIndex(o => o.id === id);
+    if (idx !== -1) { orders[idx].status = 'accepted'; localStorage.setItem('basqor_orders', JSON.stringify(orders)); loadOrders(); }
+}
+
+function rejectOrder(id) {
+    const orders = JSON.parse(localStorage.getItem('basqor_orders') || '[]');
+    const idx = orders.findIndex(o => o.id === id);
+    if (idx !== -1) { orders[idx].status = 'rejected'; localStorage.setItem('basqor_orders', JSON.stringify(orders)); loadOrders(); }
+}
+
+function filterOrders(type) { currentFilter = type; loadOrders(); }
+function refreshOrders() { loadOrders(); }
+
+function updateNewOrdersCount(count) {
+    const el = document.getElementById('newOrdersCount');
+    if (el) {
+        el.textContent = count + ' طلبات جديدة';
+        el.className = count > 0 ? 'text-xs bg-orange-900 text-orange-300 px-3 py-1 rounded-full' : 'text-xs bg-gray-800 px-3 py-1 rounded-full';
+    }
+}
+
+// تهيئة
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('ordersContainer')) { loadOrders(); setInterval(loadOrders, 15000); }
+    if (document.getElementById('vinInput')) {
+        document.getElementById('vinInput').addEventListener('keypress', e => { if (e.key === 'Enter') handleSearch(); });
+        document.getElementById('vinInput').addEventListener('input', function(e) { this.value = this.value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g, ''); });
+        document.getElementById('vinInput').focus();
+    }
+});
