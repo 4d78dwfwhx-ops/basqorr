@@ -1,13 +1,13 @@
-cat > package.json << 'EOF'
 {
   "name": "nextjs-shadcn",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 0.0.0.0 --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "bunx tsc --noEmit && next lint",
+    "format": "bunx biome format --write"
   },
   "dependencies": {
     "@next/font": "13.0.0",
@@ -41,4 +41,3 @@ cat > package.json << 'EOF'
     "typescript": "^5.8.3"
   }
 }
-EOF
