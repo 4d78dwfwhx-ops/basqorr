@@ -1,3 +1,4 @@
+cat > tsconfig.json << 'EOF'
 {
   "compilerOptions": {
     "target": "ES2017",
@@ -12,7 +13,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "jsxImportSource": "same-runtime/dist",
     "incremental": true,
     "plugins": [
       {
@@ -23,12 +23,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "next-env.d.ts",
-    "build/types/**/*.ts"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
+EOF
