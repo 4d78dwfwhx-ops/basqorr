@@ -1,0 +1,397 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String    @id @default(uuid())
+  email       String    @unique
+  name        String?
+  phone       String?
+  iqama       String?   @unique
+  crNumber    String?   @unique
+  role        UserRoles @default(CUSTOMER)
+  status      UserStatus @default(ACTIVE)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  verifiedAt  DateTime?
+  lastLoginAt DateTime?
+  language    String    @default("ar")
+
+  // Relations
+  customer    Customer?
+  merchant    Merchant?
+  supplier    Supplier?
+  salvageYard SalvageYard?
+  partsHunter PartsHunter?
+  admin       Admin?
+
+  // Security
+  password    String?
+  salt        String?
+  sessions    Session[]
+  verificationTokens VerificationToken[]
+}
+
+enum UserRoles {
+  CUSTOMER
+  MERCHANT
+  SUPPLIER
+  SALVAGE_YARD
+  PARTS_HUNTER
+  ADMIN
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  VERIFIED
+  INACTIVE
+}
+
+model Customer {
+  id        String  @id @default(uuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id])
+  garage    Vehicle[]
+  orders    Order[]
+}
+
+model Merchant {
+  id        String  @id @default(uuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id])
+  inventory Part[]
+  orders    Order[]
+}
+
+model Supplier {
+  id        String  @id @default(uuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id])
+  catalog   Part[]
+}
+
+model SalvageYard {
+  id        String  @id @default(uuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id])
+  vehicles  Vehicle[]
+  parts     Part[]
+}
+
+model PartsHunter {
+  id        String  @id @default(uuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id])
+  requests  PartsRequest[]
+}
+
+model Admin {
+  id        String  @id @default(uuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id])
+  permissions Permission[]
+}
+
+model Vehicle {
+  id             String  @id @default(uuid())
+  userId         String
+  user           User    @relation(fields: [userId], references: [id])
+  vin            String  @unique
+  make           String
+  model          String
+  year           Int
+  trim           String?
+  engine         String?
+  transmission   String?
+  color          String?
+  mileage        Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Compatibility
+  parts          Part[]
+}
+
+model Part {
+  id             String  @id @default(uuid())
+  sku            String  @unique
+  name           String
+  description    String?
+  price          Decimal
+  condition      PartCondition
+  category       PartCategory
+  brand          String?
+  manufacturer   String?
+  compatibility  Compatibility[]
+  supplierId     String?
+  supplier       Supplier? @relation(fields: [supplierId], references: [id])
+  merchantId     String?
+  merchant       Merchant? @relation(fields: [merchantId], references: [id])
+  salvageYardId  String?
+  salvageYard    SalvageYard? @relation(fields: [salvageYardId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+enum PartCondition {
+  NEW
+  USED
+  SALVAGE
+  REFURBISHED
+}
+
+enum PartCategory {
+  ENGINE
+  TRANSMISSION
+  ELECTRICAL
+  LIGHTING
+  TIRES
+  BODY
+  BRAKES
+  SUSPENSION
+  INTERIOR
+  ACCESSORIES
+}
+
+model Compatibility {
+  partId        String
+  part          Part    @relation(fields: [partId], references: [id])
+  vehicleId     String
+  vehicle       Vehicle @relation(fields: [vehicleId], references: [id])
+  compatibilityScore Int @default(100)
+}
+
+model Order {
+  id            String  @id @default(uuid())
+  userId        String
+  user          User    @relation(fields: [userId], references: [id])
+  partId        String
+  part          Part    @relation(fields: [partId], references: [id])
+  quantity      Int     @default(1)
+  price         Decimal
+  status        OrderStatus @default(PENDING)
+  paymentStatus PaymentStatus @default(PENDING)
+  deliveryStatus DeliveryStatus @default(PENDING)
+  shippingAddress Json?
+  estimatedDelivery DateTime?
+  deliveredAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  RETURNED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  ESCROW_HOLD
+  ESCROW_RELEASED
+}
+
+enum DeliveryStatus {
+  PENDING
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+  RETURNED
+}
+
+model SOSRequest {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  location    Json
+  issue       SOSIssue
+  status      SOSStatus @default(PENDING)
+  providerId  String?
+  provider    SOSProvider? @relation(fields: [providerId], references: [id])
+  estimatedArrival DateTime?
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum SOSIssue {
+  FLAT_TIRE
+  BATTERY
+  FUEL
+  ACCIDENT
+  MECHANICAL
+  LOCKED_IN_CAR
+  TOW
+}
+
+enum SOSStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model SOSProvider {
+  id          String  @id @default(uuid())
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id])
+  rating      Decimal @default(0)
+  ratingCount Int     @default(0)
+  location    Json
+  status      ProviderStatus @default(AVAILABLE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum ProviderStatus {
+  AVAILABLE
+  BUSY
+  OFFLINE
+}
+
+model PartsRequest {
+  id           String  @id @default(uuid())
+  userId       String
+  user         User    @relation(fields: [userId], references: [id])
+  partName     String
+  description  String?
+  vehicleId    String?
+  vehicle      Vehicle? @relation(fields: [vehicleId], references: [id])
+  budgetMin    Decimal
+  budgetMax    Decimal
+  urgency      UrgencyLevel
+  condition    PartCondition?
+  status       RequestStatus @default(PENDING)
+  bids         PartsBid[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum UrgencyLevel {
+  STANDARD
+  URGENT
+  ASAP
+}
+
+enum RequestStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model PartsBid {
+  id          String  @id @default(uuid())
+  requestId   String
+  request     PartsRequest @relation(fields: [requestId], references: [id])
+  hunterId    String
+  hunter      PartsHunter @relation(fields: [hunterId], references: [id])
+  price       Decimal
+  eta         Int
+  source      String
+  verified    Boolean @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Chat {
+  id        String  @id @default(uuid())
+  participants User[]
+  messages  Message[]
+}
+
+model Message {
+  id        String  @id @default(uuid())
+  chatId    String
+  chat      Chat    @relation(fields: [chatId], references: [id])
+  senderId  String
+  sender    User    @relation(fields: [senderId], references: [id])
+  content   String
+  attachments Json?
+  timestamp DateTime @default(now())
+  status    MessageStatus @default(SENT)
+}
+
+enum MessageStatus {
+  SENT
+  DELIVERED
+  READ
+}
+
+model Notification {
+  id        String  @id @default(uuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  type      NotificationType
+  title     String
+  message   String
+  payload   Json?
+  read      Boolean @default(false)
+  createdAt DateTime @default(now())
+}
+
+enum NotificationType {
+  ORDER
+  SOS
+  PARTS_REQUEST
+  CHAT
+  REVIEW
+  SYSTEM
+}
+
+model Review {
+  id        String  @id @default(uuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  targetId  String
+  targetType ReviewTargetType
+  rating    Int
+  comment   String?
+  photos    Json?
+  createdAt DateTime @default(now())
+}
+
+enum ReviewTargetType {
+  PART
+  SERVICE
+  PROVIDER
+  PARTS_HUNTER
+}
+
+model VerificationToken {
+  identifier String
+  token      String  @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  expires      DateTime
+  createdAt    DateTime @default(now())
+}
+
+model Permission {
+  id        String  @id @default(uuid())
+  name      String  @unique
+  description String?
+  adminId   String
+  admin     Admin   @relation(fields: [adminId], references: [id])
+}
