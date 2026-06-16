@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', // هذا السطر يسمح لـ GitHub Pages بتشغيل مشروع Next.js
+  images: { unoptimized: true }, // اختياري: لتجنب مشاكل الصور
+};
+
+module.exports = nextConfig;
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   i18n: {
