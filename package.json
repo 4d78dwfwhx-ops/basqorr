@@ -1,0 +1,54 @@
+{
+  "name": "basqor97",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
+    "docker:build": "docker build -t basqor97 .",
+    "docker:run": "docker-compose up -d"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "@prisma/client": "^5.15.0",
+    "@supabase/supabase-js": "^2.42.4",
+    "@tanstack/react-query": "^4.36.1",
+    "autoprefixer": "^10.4.19",
+    "axios": "^1.6.8",
+    "date-fns": "^2.30.0",
+    "eslint-config-next": "14.2.4",
+    "i18next": "^23.11.5",
+    "next": "14.2.4",
+    "next-themes": "^0.2.1",
+    "postcss": "^8.4.38",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.4",
+    "react-i18next": "^13.5.2",
+    "react-spinners": "^0.13.8",
+    "react-toastify": "^10.0.5",
+    "recharts": "^2.12.4",
+    "supabase": "^1.142.3",
+    "tailwindcss": "^3.4.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.2.74",
+    "@types/react-dom": "^18.2.25",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^8.0.3",
+    "postcss-import": "^15.1.0",
+    "prettier": "^3.2.5",
+    "prisma": "^5.15.0",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}
