@@ -1,7 +1,5 @@
-cat > tsconfig.json << 'EOF'
 {
   "compilerOptions": {
-    "target": "ES2022",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -14,38 +12,11 @@ cat > tsconfig.json << 'EOF'
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
     "paths": {
-      "@/*": ["./src/*"],
-      "@/shared/*": ["./src/shared/*"],
-      "@/domain/*": ["./src/domain/*"],
-      "@/application/*": ["./src/application/*"],
-      "@/infrastructure/*": ["./src/infrastructure/*"],
-      "@/presentation/*": ["./src/presentation/*"]
-    },
-    "baseUrl": ".",
-    "forceConsistentCasingInFileNames": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+      "@/*": ["./src/*"]
+    }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
-EOF
-
-git add tsconfig.json
-git commit -m "chore: add TypeScript configuration with path aliases"
-git push origin main
