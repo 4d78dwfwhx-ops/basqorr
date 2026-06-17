@@ -1,199 +1,84 @@
-cat > README.md << 'EOF'
-# Next.js Project with shadcn/ui
+# 🚗 BASQOR | بسكور
 
-This is a Next.js project bootstrapped with shadcn/ui components.
+**كل قطعة. كل مكان. بثقة.**
 
-## Getting Started
+منصة السيارات وقطع الغيار الرائدة في المملكة العربية السعودية.
 
-First, install dependencies:
-
-```bash
-npm install
-# or
-bun install
-Then, run the development server:
-
-bash
-npm run dev
-# or
-bun run dev
-Open http://localhost:3000 to see the result.
-
-Build for production
-bash
-npm run build
-npm start
-EOF
-
-text
-
----
-
-## **الملف 11: `tailwind.config.ts`**
-
-```bash
-cat > tailwind.config.ts << 'EOF'
-import type { Config } from "tailwindcss";
-
-const config: Config = {
-  darkMode: ["class"],
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
-        },
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-    },
-  },
-  plugins: [require("tailwindcss-animate")],
-};
-
-export default config;
-EOFcat > README.md << 'EOF'
-# Next.js Project with shadcn/ui
-
-This is a Next.js project bootstrapped with shadcn/ui components.
-
-## Getting Started
-
-First, install dependencies:
+## 🚀 التشغيل
 
 ```bash
 npm install
-# or
-bun install
-Then, run the development server:
-
-bash
 npm run dev
-# or
-bun run dev
-Open http://localhost:3000 to see the result.
-
-Build for production
-bash
 npm run build
-npm start
-EOF
-
-text
+© 2026 BASQOR. جميع الحقوق محفوظة.
 
 ---
 
-## **الملف 11: `tailwind.config.ts`**
+#### 8. `src/app/globals.css`
+```css
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
 
-```bash
-cat > tailwind.config.ts << 'EOF'
-import type { Config } from "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-const config: Config = {
-  darkMode: ["class"],
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
-        },
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-    },
-  },
-  plugins: [require("tailwindcss-animate")],
-};
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Tajawal', system-ui, sans-serif;
+    direction: rtl;
+    background: #0a0b0d;
+    color: #f5f5f7;
+    overflow-x: hidden;
+  }
+}
 
-export default config;
-EOF
+@layer components {
+  .gradient-text {
+    background: linear-gradient(135deg, #D4A853 0%, #F9C633 50%, #D4A853 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .glass {
+    background: rgba(26, 29, 36, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .glass-strong {
+    background: rgba(18, 20, 26, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .card-hover {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(212, 168, 83, 0.25);
+    border-color: rgba(212, 168, 83, 0.3);
+  }
+  .btn-primary {
+    @apply bg-gradient-to-r from-gold to-gold-light text-dark-950 font-bold;
+    @apply shadow-lg shadow-gold/30 hover:shadow-gold/50;
+    @apply transition-all duration-300 hover:scale-105 active:scale-95;
+  }
+  .btn-secondary {
+    @apply glass border-2 border-gold/40 text-gold font-semibold;
+    @apply hover:bg-gold/10 hover:border-gold/60;
+    @apply transition-all duration-300;
+  }
+  .glow-gold { box-shadow: 0 0 40px rgba(212, 168, 83, 0.4); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: #0a0b0d; }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #D4A853, #F9C633); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #F9C633, #D4A853); }
+  ::selection { background: rgba(212, 168, 83, 0.3); color: #fff; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+}
