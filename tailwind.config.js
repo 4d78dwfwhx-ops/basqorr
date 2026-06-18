@@ -1,79 +1,63 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from "tailwindcss";
+
+const config: Config = {
   content: [
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
-    './public/**/*.html',
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: 'class',
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: '#FDFCFB',
-          100: '#FAF5F2',
-          200: '#F5E9E5',
-          300: '#F0D6D0',
-          400: '#EBA5A4',
-          500: '#D4A853',
-          600: '#C29746',
-          700: '#A37B34',
-          800: '#836125',
-          900: '#624616',
+        dark: {
+          50: "#f5f5f7",
+          100: "#e8e8ed",
+          200: "#d1d1d6",
+          300: "#a1a5af",
+          400: "#6b7080",
+          500: "#484b5a",
+          600: "#323541",
+          700: "#22262f",
+          800: "#1a1d24",
+          900: "#12141a",
+          950: "#0a0b0d",
         },
-        background: {
-          DEFAULT: '#0A0B0D',
-          secondary: '#12141A',
-          surface: '#1A1D24',
+        gold: {
+          DEFAULT: "#D4A853",
+          light: "#F9C633",
+          dark: "#95771f",
         },
-        text: {
-          primary: '#F5F5F7',
-          secondary: '#A1A5AF',
-          muted: '#6B7080',
-        },
+        emerald: { DEFAULT: "#10B981" },
+        crimson: { DEFAULT: "#EF4444" },
+        azure: { DEFAULT: "#3B82F6" },
       },
       fontFamily: {
-        sans: ['Tajawal', 'IBM Plex Sans Arabic', 'Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
-      },
-      borderRadius: {
-        DEFAULT: '16px',
-        button: '12px',
-        input: '10px',
-      },
-      boxShadow: {
-        'elevation-1': '0 1px 2px rgba(0, 0, 0, 0.3)',
-        'elevation-2': '0 4px 16px rgba(0, 0, 0, 0.4)',
-        'elevation-3': '0 12px 40px rgba(0, 0, 0, 0.5)',
-        'elevation-4': '0 24px 80px rgba(0, 0, 0, 0.6)',
-      },
-      keyframes: {
-        'pulse-slow': {
-          '0%, 100%': { opacity: 1 },
-          '50%': { opacity: 0.5 },
-        },
+        arabic: ["Tajawal", "system-ui", "sans-serif"],
       },
       animation: {
-        'pulse-slow': 'pulse-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+        "fade-in": "fadeIn 0.6s ease-out",
+        "slide-up": "slideUp 0.6s ease-out",
+        "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "float": "float 3s ease-in-out infinite",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        slideUp: {
+          "0%": { transform: "translateY(30px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('tailwindcss-rtl'),
-    function ({ addUtilities }) {
-      addUtilities({
-        '.rtl': {
-          direction: 'rtl',
-          unicodeBidi: 'bidi-override',
-        },
-        '.ltr': {
-          direction: 'ltr',
-          unicodeBidi: 'bidi-override',
-        },
-      });
-    },
-  ],
-  corePlugins: {
-    preflight: false,
-  },
+  plugins: [],
 };
+
+export default config;
