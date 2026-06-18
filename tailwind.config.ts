@@ -1,6 +1,3 @@
-git add tailwind.config.ts
-git commit -m "fix: إعادة ملف tailwind.config.ts"
-git push origin main
 import type { Config } from "tailwindcss";
 
 const config: Config = {
